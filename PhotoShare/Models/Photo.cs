@@ -1,4 +1,6 @@
-﻿namespace PhotoShare.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PhotoShare.Models
 {
     public class Photo
     {
@@ -9,10 +11,12 @@
 
         public string Description { get; set; } = string.Empty;
 
+        [Display(Name = "Date Created")]
         public DateTime CreatedAt { get; set; }
 
         public string ImageFilename { get; set; } = string.Empty;
 
+        [Display(Name = "Show photo online")]
         public bool IsPublic { get; set; } = false;
 
         // Navigation property
