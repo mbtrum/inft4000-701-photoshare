@@ -4,22 +4,24 @@ namespace PhotoShare.Models
 {
     public class Photo
     {
-        // Primary key
+        // primary key
         public int PhotoId { get; set; }
-
-        public string Title { get; set; } = string.Empty;
 
         public string Description { get; set; } = string.Empty;
 
-        [Display(Name = "Date Created")]
-        public DateTime CreatedAt { get; set; }
+        public string Location { get; set; } = string.Empty;
+
+        public string Camera { get; set; } = string.Empty;
 
         public string ImageFilename { get; set; } = string.Empty;
 
-        [Display(Name = "Show photo online")]
-        public bool IsPublic { get; set; } = false;
+        [Display(Name = "Visibility")]
+        public bool IsVisible { get; set; } = false;
+
+        [Display(Name = "Date Created")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         // Navigation property
-        public List<Tag>? Tags { get; set; } // nullable!!!
+        public List<Tag>? Tags { get; set; }  // nullable!!!
     }
 }
