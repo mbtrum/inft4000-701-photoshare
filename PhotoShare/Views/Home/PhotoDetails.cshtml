@@ -4,30 +4,22 @@
     ViewData["Title"] = "Photo Display";
 }
 
-<table class="table">
-    <tr>
-        <td>
-            @Html.DisplayNameFor(model => model.PhotoId)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.PhotoId)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-            
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayNameFor(model => model.ImageFilename)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.ImageFilename)
-        </td>
-    </tr>
-</table>
+<div class="w-50 mx-auto">
+    <img src="~/photos/@Model.ImageFilename" alt="@Model.Description" class="img-fluid" />
+</div>
+
+<div class="text-secondary mt-3">
+    <i class="fa-solid fa-location-dot"></i> @Model.Location<br />
+    <i class="fa-solid fa-camera"></i> @Model.Camera<br />
+    <i class="fa-solid fa-calendar"></i> @Model.CreatedAt.ToString("MMM d, yyyy")
+</div>
+
+@if(Model.Tags != null)
+{
+    <div class="mt-3">
+        @foreach(var item in Model.Tags)
+        {
+            <span class="me-2 badge bg-dark">@item.Name</span>
+        }
+    </div>
+}

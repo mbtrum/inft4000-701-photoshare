@@ -9,9 +9,15 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+        <div class="mb-3">
+            <img src="~/photos/@Model.ImageFilename" alt="@Model.Description" class="thumbnail" />
+        </div>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PhotoId" />
+            <input type="hidden" asp-for="ImageFilename" />
+            <input type="hidden" asp-for="CreatedAt" />
+
             <div class="mb-3">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
@@ -27,20 +33,21 @@
                 <input asp-for="Camera" class="form-control" />
                 <span asp-validation-for="Camera" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="ImageFilename" class="control-label"></label>
-                <input asp-for="ImageFilename" class="form-control" />
-                <span asp-validation-for="ImageFilename" class="text-danger"></span>
-            </div>
+            @* <div class="mb-3"> *@
+            @*     <label asp-for="ImageFilename" class="control-label"></label> *@
+            @*     <input asp-for="ImageFilename" class="form-control" /> *@
+            @*     <span asp-validation-for="ImageFilename" class="text-danger"></span> *@
+            @* </div> *@
             <div class="mb-3 form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsVisible" /> @Html.DisplayNameFor(model => model.IsVisible)
                 </label>
             </div>
             <div class="mb-3">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+                Created: @Model.CreatedAt
+                @* <label asp-for="CreatedAt" class="control-label"></label> *@
+                @* <input asp-for="CreatedAt" class="form-control" /> *@
+                @* <span asp-validation-for="CreatedAt" class="text-danger"></span> *@
             </div>
             <div class="mb-3">
                 <input type="submit" value="Save" class="btn btn-primary" />

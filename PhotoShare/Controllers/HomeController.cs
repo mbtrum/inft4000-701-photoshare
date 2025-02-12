@@ -34,7 +34,9 @@ namespace PhotoShare.Controllers
             }
 
             // get photo by id
-            var photo = await _context.Photo.FirstOrDefaultAsync(m => m.PhotoId == id);
+            var photo = await _context.Photo
+                .Include(m => m.Tags)
+                .FirstOrDefaultAsync(m => m.PhotoId == id);
 
             if (photo == null)
             {
