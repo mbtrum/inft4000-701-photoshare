@@ -6,7 +6,10 @@
 
 @if (Model.ApplicationUser != null){
     <div class="d-flex">
-        <div class="pe-2"><img src="~/profile_img/@Model.ApplicationUser.ImageFilename" alt="@Model.ApplicationUser.Name" class="profile-thumbnail" /></div>
+        @if(!string.IsNullOrEmpty(Model.ApplicationUser.ImageFilename))
+        {
+            <div class="pe-2"><img src="~/profile_img/@Model.ApplicationUser.ImageFilename" alt="@Model.ApplicationUser.Name" class="profile-thumbnail" /></div>
+        }
         <div>
             @Model.ApplicationUser.Name
             @if(Model.ApplicationUser.IsForHire == true) {
