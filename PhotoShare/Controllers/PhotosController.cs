@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,19 +12,26 @@ using PhotoShare.Models;
 
 namespace PhotoShare.Controllers
 {
+    // Only logged in users can access
+    [Authorize]
     public class PhotosController : Controller
     {
         private readonly PhotoShareContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PhotosController(PhotoShareContext context)
+        public PhotosController(PhotoShareContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Photos
+        // GET: Photos by user id
         public async Task<IActionResult> Index()
         {
-            var photos = await _context.Photo.ToListAsync();
+            var photos = await _context.Photo
+                .Where(m => m.ApplicationUserId == _userManager.GetUserId(User))
+                .ToListAsync();
+
             return View(photos);
         }
 
@@ -60,6 +69,9 @@ namespace PhotoShare.Controllers
             // rename the uploaded file to a guid (unique filename). Set before photo saved in database.
             photo.ImageFilename = Guid.NewGuid().ToString() + Path.GetExtension(photo.ImageFile?.FileName);
 
+            // Set the logged in user
+            photo.ApplicationUserId = _userManager.GetUserId(User);
+
             if (ModelState.IsValid)
             {
                 _context.Add(photo);
@@ -90,12 +102,16 @@ namespace PhotoShare.Controllers
                 return NotFound();
             }
 
-            var photo = await _context.Photo.Include("Tags").FirstOrDefaultAsync(m => m.PhotoId == id);
+            var photo = await _context.Photo
+                .Where(m => m.ApplicationUserId == _userManager.GetUserId(User))
+                .Include("Tags")
+                .FirstOrDefaultAsync(m => m.PhotoId == id);
 
             if (photo == null)
             {
                 return NotFound();
             }
+
             return View(photo);
         }
 
@@ -143,7 +159,9 @@ namespace PhotoShare.Controllers
             }
 
             var photo = await _context.Photo
+                .Where(m => m.ApplicationUserId == _userManager.GetUserId(User))
                 .FirstOrDefaultAsync(m => m.PhotoId == id);
+
             if (photo == null)
             {
                 return NotFound();
