@@ -4,6 +4,18 @@
     ViewData["Title"] = "Photo Display";
 }
 
+@if (Model.ApplicationUser != null){
+    <div class="d-flex">
+        <div class="pe-2"><img src="~/profile_img/@Model.ApplicationUser.ImageFilename" alt="@Model.ApplicationUser.Name" class="profile-thumbnail" /></div>
+        <div>
+            @Model.ApplicationUser.Name
+            @if(Model.ApplicationUser.IsForHire == true) {
+               <br/><span class="text-primary">Available for hire <i class="fa-solid fa-circle-check"></i></span>
+            }
+        </div>
+    </div>
+}
+
 <div class="w-50 mx-auto">
     <img src="~/photos/@Model.ImageFilename" alt="@Model.Description" class="img-fluid" />
 </div>
